@@ -31,7 +31,6 @@ class MainViewController: UIViewController {
             collectionViewLayout: collectionViewFlowLayout
         )
         collectionView.register(ArtistCollectionViewCell.self, forCellWithReuseIdentifier: "cell")
-//        collectionView.backgroundColor = .red
         collectionView.showsVerticalScrollIndicator = false
         collectionView.decelerationRate = .fast
         collectionView.translatesAutoresizingMaskIntoConstraints = false
@@ -87,6 +86,9 @@ class MainViewController: UIViewController {
 
 extension MainViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        let selectedArtist = filteredArtist[indexPath.row]
+        let detailsVC = DetailsViewController(artist: selectedArtist)
+        navigationController?.pushViewController(detailsVC, animated: true)
         print("didSelectItemAt method was call")
     }
 }
@@ -98,7 +100,7 @@ extension MainViewController: UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath) as? ArtistCollectionViewCell else { return UICollectionViewCell() }
-        cell.configure(title: filteredArtist[indexPath.row].name, image: filteredArtist[indexPath.row].image, description: filteredArtist[indexPath.row].birthDay)
+        cell.configure(title: filteredArtist[indexPath.row].fullname, image: filteredArtist[indexPath.row].image, description: filteredArtist[indexPath.row].birthDay)
         return cell
     }
 }

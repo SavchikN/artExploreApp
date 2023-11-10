@@ -10,13 +10,16 @@ import SnapKit
 
 class ArtistCollectionViewCell: UICollectionViewCell {
     
-    private let firstBlurEffectView: UIVisualEffectView = {
-        let blurEffect = UIBlurEffect(style: .regular)
-        let view = UIVisualEffectView(effect: blurEffect)
+    private let descriptionView: UIView = {
+        let view = UIView()
+        view.backgroundColor = .white
+        view.layer.borderColor = UIColor.black.cgColor
+        view.layer.borderWidth = 1
+        view.layer.cornerRadius = 20
         return view
     }()
     
-    private let secondBlurEffectView: UIVisualEffectView = {
+    private let firstBlurEffectView: UIVisualEffectView = {
         let blurEffect = UIBlurEffect(style: .regular)
         let view = UIVisualEffectView(effect: blurEffect)
         return view
@@ -25,6 +28,7 @@ class ArtistCollectionViewCell: UICollectionViewCell {
     private let imageView: UIImageView = {
         let image = UIImageView()
         image.contentMode = .scaleAspectFill
+        image.layer.cornerRadius = image.bounds.height / 2
         image.translatesAutoresizingMaskIntoConstraints = false
         return image
     }()
@@ -41,7 +45,7 @@ class ArtistCollectionViewCell: UICollectionViewCell {
     private let artistDescription: UILabel = {
         let description = UILabel()
         description.font = .rounded(ofSize: 25, weight: .bold)
-        description.textColor = .white
+        description.textColor = .black
         description.textAlignment = .center
         description.numberOfLines = 0
         description.translatesAutoresizingMaskIntoConstraints = false
@@ -54,8 +58,10 @@ class ArtistCollectionViewCell: UICollectionViewCell {
         contentView.addSubview(imageView)
         contentView.addSubview(firstBlurEffectView)
         firstBlurEffectView.contentView.addSubview(artistName)
-        contentView.addSubview(secondBlurEffectView)
-        secondBlurEffectView.contentView.addSubview(artistDescription)
+//        contentView.addSubview(secondBlurEffectView)
+//        secondBlurEffectView.contentView.addSubview(artistDescription)
+        contentView.addSubview(descriptionView)
+        descriptionView.addSubview(artistDescription)
 
         setConstraints()
     }
@@ -67,6 +73,8 @@ class ArtistCollectionViewCell: UICollectionViewCell {
     override func layoutSubviews() {
         contentView.clipsToBounds = true
         contentView.layer.cornerRadius = 20
+//        contentView.layer.borderColor = UIColor.black.cgColor
+//        contentView.layer.borderWidth = 1
     }
     
     func configure(title: String, image: String, description: String) {
@@ -82,20 +90,20 @@ class ArtistCollectionViewCell: UICollectionViewCell {
         
         firstBlurEffectView.snp.makeConstraints { make in
             make.leading.trailing.top.equalTo(imageView)
-            make.height.equalTo(60)
+            make.height.equalTo(80)
         }
         
         artistName.snp.makeConstraints { make in
             make.edges.equalTo(firstBlurEffectView)
         }
         
-        secondBlurEffectView.snp.makeConstraints { make in
+        descriptionView.snp.makeConstraints { make in
             make.leading.trailing.bottom.equalTo(imageView)
-            make.height.equalTo(70)
+            make.height.equalTo(100)
         }
         
         artistDescription.snp.makeConstraints { make in
-            make.edges.equalTo(secondBlurEffectView)
+            make.edges.equalTo(descriptionView)
         }
     }
     

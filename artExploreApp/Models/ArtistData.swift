@@ -14,7 +14,7 @@ struct ArtistData: Codable {
 
 // MARK: - Artist
 struct Artist: Codable {
-    let name, bio, image, birthDay: String
+    let name, bio, image, birthDay, surname, fullname: String
     let works: [Work]
 }
 
