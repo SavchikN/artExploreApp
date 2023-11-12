@@ -81,13 +81,13 @@ class MainViewController: UIViewController {
             collectionView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -10)
         ])
     }
-
 }
 
 extension MainViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let selectedArtist = filteredArtist[indexPath.row]
         let detailsVC = DetailsViewController(artist: selectedArtist)
+        detailsVC.configure(name: selectedArtist.name, surname: selectedArtist.surname, image: selectedArtist.image, description: selectedArtist.bio)
         navigationController?.pushViewController(detailsVC, animated: true)
         print("didSelectItemAt method was call")
     }

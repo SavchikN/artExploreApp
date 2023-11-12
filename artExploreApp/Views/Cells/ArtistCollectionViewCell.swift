@@ -58,10 +58,6 @@ class ArtistCollectionViewCell: UICollectionViewCell {
         contentView.addSubview(imageView)
         contentView.addSubview(firstBlurEffectView)
         firstBlurEffectView.contentView.addSubview(artistName)
-//        contentView.addSubview(secondBlurEffectView)
-//        secondBlurEffectView.contentView.addSubview(artistDescription)
-        contentView.addSubview(descriptionView)
-        descriptionView.addSubview(artistDescription)
 
         setConstraints()
     }
@@ -73,8 +69,6 @@ class ArtistCollectionViewCell: UICollectionViewCell {
     override func layoutSubviews() {
         contentView.clipsToBounds = true
         contentView.layer.cornerRadius = 20
-//        contentView.layer.borderColor = UIColor.black.cgColor
-//        contentView.layer.borderWidth = 1
     }
     
     func configure(title: String, image: String, description: String) {
@@ -95,15 +89,6 @@ class ArtistCollectionViewCell: UICollectionViewCell {
         
         artistName.snp.makeConstraints { make in
             make.edges.equalTo(firstBlurEffectView)
-        }
-        
-        descriptionView.snp.makeConstraints { make in
-            make.leading.trailing.bottom.equalTo(imageView)
-            make.height.equalTo(100)
-        }
-        
-        artistDescription.snp.makeConstraints { make in
-            make.edges.equalTo(descriptionView)
         }
     }
     

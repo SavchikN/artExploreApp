@@ -20,7 +20,9 @@
 		115E13D42AFCFF4800C19201 /* SnapKit-Dynamic in Frameworks */ = {isa = PBXBuildFile; productRef = 115E13D32AFCFF4800C19201 /* SnapKit-Dynamic */; };
 		115E13D72AFD082200C19201 /* ArtistData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 115E13D62AFD082200C19201 /* ArtistData.swift */; };
 		115E13D92AFD8DEF00C19201 /* DetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 115E13D82AFD8DEF00C19201 /* DetailsViewController.swift */; };
-		115E13DD2AFE492B00C19201 /* WorksView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 115E13DC2AFE492B00C19201 /* WorksView.swift */; };
+		115E13E22B010D2800C19201 /* ArtistWorkCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 115E13E12B010D2800C19201 /* ArtistWorkCell.swift */; };
+		115E13E42B0119C800C19201 /* ImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 115E13E32B0119C800C19201 /* ImageView.swift */; };
+		115E13E82B01645500C19201 /* ArtViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 115E13E72B01645500C19201 /* ArtViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -37,7 +39,9 @@
 		115E13CE2AFCDF0100C19201 /* UIFont + ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIFont + ext.swift"; sourceTree = "<group>"; };
 		115E13D62AFD082200C19201 /* ArtistData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArtistData.swift; sourceTree = "<group>"; };
 		115E13D82AFD8DEF00C19201 /* DetailsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailsViewController.swift; sourceTree = "<group>"; };
-		115E13DC2AFE492B00C19201 /* WorksView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorksView.swift; sourceTree = "<group>"; };
+		115E13E12B010D2800C19201 /* ArtistWorkCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArtistWorkCell.swift; sourceTree = "<group>"; };
+		115E13E32B0119C800C19201 /* ImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageView.swift; sourceTree = "<group>"; };
+		115E13E72B01645500C19201 /* ArtViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArtViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -89,6 +93,7 @@
 			children = (
 				115E13B12AFBFDEB00C19201 /* MainViewController.swift */,
 				115E13D82AFD8DEF00C19201 /* DetailsViewController.swift */,
+				115E13E72B01645500C19201 /* ArtViewController.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -105,8 +110,8 @@
 		115E13C32AFC476D00C19201 /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				115E13C42AFC479300C19201 /* ArtistCollectionViewCell.swift */,
-				115E13DC2AFE492B00C19201 /* WorksView.swift */,
+				115E13E02B010D1300C19201 /* Cells */,
+				115E13E32B0119C800C19201 /* ImageView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -143,6 +148,15 @@
 				115E13D62AFD082200C19201 /* ArtistData.swift */,
 			);
 			path = Models;
+			sourceTree = "<group>";
+		};
+		115E13E02B010D1300C19201 /* Cells */ = {
+			isa = PBXGroup;
+			children = (
+				115E13C42AFC479300C19201 /* ArtistCollectionViewCell.swift */,
+				115E13E12B010D2800C19201 /* ArtistWorkCell.swift */,
+			);
+			path = Cells;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -224,10 +238,12 @@
 			buildActionMask = 2147483647;
 			files = (
 				115E13B22AFBFDEB00C19201 /* MainViewController.swift in Sources */,
+				115E13E82B01645500C19201 /* ArtViewController.swift in Sources */,
 				115E13AE2AFBFDEB00C19201 /* AppDelegate.swift in Sources */,
 				115E13CD2AFCDC4A00C19201 /* Bundle + ext.swift in Sources */,
-				115E13DD2AFE492B00C19201 /* WorksView.swift in Sources */,
+				115E13E42B0119C800C19201 /* ImageView.swift in Sources */,
 				115E13D92AFD8DEF00C19201 /* DetailsViewController.swift in Sources */,
+				115E13E22B010D2800C19201 /* ArtistWorkCell.swift in Sources */,
 				115E13B02AFBFDEB00C19201 /* SceneDelegate.swift in Sources */,
 				115E13CF2AFCDF0100C19201 /* UIFont + ext.swift in Sources */,
 				115E13C52AFC479300C19201 /* ArtistCollectionViewCell.swift in Sources */,

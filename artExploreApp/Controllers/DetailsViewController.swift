@@ -11,60 +11,33 @@ import SnapKit
 class DetailsViewController: UIViewController {
     
     private let artist: Artist
-    
-    private let blurEffectView: UIVisualEffectView = {
-        let blurEffect = UIBlurEffect(style: .dark)
-        let view = UIVisualEffectView(effect: blurEffect)
-        return view
-    }()
-    
-    private lazy var imageView: UIImageView = {
-        let image = UIImageView()
-        image.layer.cornerRadius = 20
-        image.image = UIImage(named: artist.image)
-        image.contentMode = .scaleToFill
-        image.backgroundColor = .systemGray
-        return image
-    }()
-    
-    private lazy var artistName: UILabel = {
-        let label = UILabel()
-        label.font = .rounded(ofSize: 30, weight: .regular)
-        label.textColor = .white
-        label.textAlignment = .left
-        label.text = artist.name
-        return label
-    }()
-    
-    private lazy var artistSurname: UILabel = {
-        let label = UILabel()
-        label.font = .rounded(ofSize: 50, weight: .bold)
-        label.textColor = .white
-        label.textAlignment = .left
-        label.text = artist.surname
-        return label
-    }()
-    
-    private let quoteLabel: UILabel = {
-        let label = UILabel()
-        label.text = "“"
-        label.font = UIFont(name: "Arial Rounded MT Bold", size: 70)
-        label.textColor = .white
-        return label
-    }()
-    
-    private lazy var artistDescription: UILabel = {
-        let label = UILabel()
-        label.textAlignment = .left
-        label.numberOfLines = 0
-        label.font = .rounded(ofSize: 18, weight: .light)
-        label.text = artist.bio
-        label.textColor = .white
-        return label
-    }()
-    
-    private let worksView = WorksView()
 
+    private let imageView = ImageView()
+    
+    private let titleLabel: UILabel = {
+        let label = UILabel()
+        label.text = "Author's works"
+        label.font = .rounded(ofSize: 40, weight: .medium)
+        label.textColor = .black
+        return label
+    }()
+    
+    private let collectionView: UICollectionView = {
+        let collectionViewFlowLayout = UICollectionViewFlowLayout()
+        collectionViewFlowLayout.scrollDirection = .horizontal
+        collectionViewFlowLayout.minimumLineSpacing = 30
+        
+        let collectionView = UICollectionView(
+            frame: .zero,
+            collectionViewLayout: collectionViewFlowLayout
+        )
+        collectionView.register(ArtistWorkCell.self, forCellWithReuseIdentifier: "cell")
+        collectionView.showsHorizontalScrollIndicator = false
+        collectionView.decelerationRate = .fast
+        collectionView.translatesAutoresizingMaskIntoConstraints = false
+        return collectionView
+    }()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -81,9 +54,11 @@ class DetailsViewController: UIViewController {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func configure(title: String, image: String, description: String) {
-        imageView.image = UIImage(named: image)
-        artistDescription.text = description
+    func configure(name: String, surname: String, image: String, description: String) {
+        imageView.artistName.text = name
+        imageView.artistSurname.text = surname
+        imageView.imageView.image = UIImage(named: image)
+        imageView.artistDescription.text = description
     }
     
     private func setupUI() {
@@ -92,14 +67,12 @@ class DetailsViewController: UIViewController {
         
         setupSubviews(
             imageView,
-            blurEffectView,
-            worksView
+            titleLabel,
+            collectionView
         )
         
-        blurEffectView.contentView.addSubview(artistName)
-        blurEffectView.contentView.addSubview(artistSurname)
-        blurEffectView.contentView.addSubview(quoteLabel)
-        blurEffectView.contentView.addSubview(artistDescription)
+        collectionView.dataSource = self
+        collectionView.delegate = self
     }
     
     private func setupSubviews(_ subview: UIView...) {
@@ -110,38 +83,57 @@ class DetailsViewController: UIViewController {
     
     private func setConstraints() {
         imageView.snp.makeConstraints { make in
-            make.leading.top.trailing.equalToSuperview()
+            make.leading.trailing.top.equalToSuperview()
             make.height.equalTo(530)
         }
         
-        blurEffectView.snp.makeConstraints { make in
-            make.edges.equalTo(imageView)
-        }
-        
-        artistName.snp.makeConstraints { make in
-            make.top.equalTo(blurEffectView.safeAreaLayoutGuide).inset(-40)
-            make.leading.equalTo(blurEffectView.safeAreaLayoutGuide).inset(20)
-        }
-        
-        artistSurname.snp.makeConstraints { make in
-            make.top.equalTo(artistName.snp.bottom).inset(10)
-            make.leading.equalTo(blurEffectView.safeAreaLayoutGuide).inset(20)
-        }
-        
-        quoteLabel.snp.makeConstraints { make in
-            make.trailing.equalTo(blurEffectView.snp.leading).inset(80)
-            make.top.equalTo(artistSurname.snp.bottom).inset(-50)
-        }
-        
-        artistDescription.snp.makeConstraints { make in
-            make.top.equalTo(artistSurname.snp.bottom).inset(-80)
-            make.trailing.equalTo(blurEffectView.safeAreaLayoutGuide).inset(20)
-            make.width.equalTo(280)
-        }
-        
-        worksView.snp.makeConstraints { make in
+        titleLabel.snp.makeConstraints { make in
             make.top.equalTo(imageView.snp.bottom).inset(-10)
             make.leading.equalTo(view.snp.leading).inset(25)
         }
+        
+        collectionView.snp.makeConstraints { make in
+            make.top.equalTo(titleLabel.snp.bottom).inset(-10)
+            make.leading.trailing.equalTo(view.safeAreaLayoutGuide).inset(10)
+            make.bottom.equalTo(view.safeAreaLayoutGuide)
+        }
+    }
+}
+
+extension DetailsViewController: UICollectionViewDelegate {
+    
+}
+
+extension DetailsViewController: UICollectionViewDataSource {
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        artist.works.count
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath) as? ArtistWorkCell else { return UICollectionViewCell() }
+
+        cell.configure(title: artist.works[indexPath.row].title, image: artist.works[indexPath.row].image)
+        return cell
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        let artVC = ArtViewController()
+        let selectedArtist = artist.works[indexPath.row]
+        artVC.configure(
+            title: selectedArtist.title,
+            image: selectedArtist.image,
+            description: selectedArtist.info
+        )
+        
+        present(artVC, animated: true)
+    }
+}
+
+extension DetailsViewController: UICollectionViewDelegateFlowLayout {
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        CGSize(
+            width: 200,
+            height: 210
+        )
     }
 }
